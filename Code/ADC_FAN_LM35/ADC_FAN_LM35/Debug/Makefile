@@ -63,9 +63,9 @@ C_DEPS_AS_ARGS +=  \
 LCD_4_BIT.d \
 main.d
 
-OUTPUT_FILE_PATH +=ADC_FAN_LM35.elf
+OUTPUT_FILE_PATH +=LM35_voltameter_fan_l\ cd_4_bit.elf
 
-OUTPUT_FILE_PATH_AS_ARGS +=ADC_FAN_LM35.elf
+OUTPUT_FILE_PATH_AS_ARGS +="LM35_voltameter_fan_l cd_4_bit.elf"
 
 ADDITIONAL_DEPENDENCIES:=
 
@@ -117,13 +117,13 @@ all: $(OUTPUT_FILE_PATH) $(ADDITIONAL_DEPENDENCIES)
 $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER_SCRIPT_DEP)
 	@echo Building target: $@
 	@echo Invoking: AVR/GNU Linker : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="ADC_FAN_LM35.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\1.3.300\gcc\dev\atmega32"  
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="LM35_voltameter_fan_l cd_4_bit.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\1.3.300\gcc\dev\atmega32"  
 	@echo Finished building target: $@
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "ADC_FAN_LM35.elf" "ADC_FAN_LM35.hex"
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "ADC_FAN_LM35.elf" "ADC_FAN_LM35.eep" || exit 0
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "ADC_FAN_LM35.elf" > "ADC_FAN_LM35.lss"
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "ADC_FAN_LM35.elf" "ADC_FAN_LM35.srec"
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-size.exe" "ADC_FAN_LM35.elf"
+	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "LM35_voltameter_fan_l cd_4_bit.elf" "LM35_voltameter_fan_l cd_4_bit.hex"
+	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "LM35_voltameter_fan_l cd_4_bit.elf" "LM35_voltameter_fan_l cd_4_bit.eep" || exit 0
+	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "LM35_voltameter_fan_l cd_4_bit.elf" > "LM35_voltameter_fan_l cd_4_bit.lss"
+	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "LM35_voltameter_fan_l cd_4_bit.elf" "LM35_voltameter_fan_l cd_4_bit.srec"
+	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-size.exe" "LM35_voltameter_fan_l cd_4_bit.elf"
 	
 	
 
@@ -135,5 +135,5 @@ $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER
 clean:
 	-$(RM) $(OBJS_AS_ARGS) $(EXECUTABLES)  
 	-$(RM) $(C_DEPS_AS_ARGS)   
-	rm -rf "ADC_FAN_LM35.elf" "ADC_FAN_LM35.a" "ADC_FAN_LM35.hex" "ADC_FAN_LM35.lss" "ADC_FAN_LM35.eep" "ADC_FAN_LM35.map" "ADC_FAN_LM35.srec" "ADC_FAN_LM35.usersignatures"
+	rm -rf "LM35_voltameter_fan_l cd_4_bit.elf" "LM35_voltameter_fan_l cd_4_bit.a" "LM35_voltameter_fan_l cd_4_bit.hex" "LM35_voltameter_fan_l cd_4_bit.lss" "LM35_voltameter_fan_l cd_4_bit.eep" "LM35_voltameter_fan_l cd_4_bit.map" "LM35_voltameter_fan_l cd_4_bit.srec" "LM35_voltameter_fan_l cd_4_bit.usersignatures"
 	

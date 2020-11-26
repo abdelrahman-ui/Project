@@ -1,0 +1,236 @@
+
+Stepper_Motor.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000148  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  0000019c  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  0000019c  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001cc  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000028  00000000  00000000  00000208  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000749  00000000  00000000  00000230  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000005ae  00000000  00000000  00000979  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000320  00000000  00000000  00000f27  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000034  00000000  00000000  00001248  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000339  00000000  00000000  0000127c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000001d4  00000000  00000000  000015b5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000018  00000000  00000000  00001789  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 57 00 	call	0xae	; 0xae <main>
+  64:	0c 94 a2 00 	jmp	0x144	; 0x144 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <Stepper_Motor>:
+}
+
+
+void Stepper_Motor(unsigned char Mode)
+{
+	switch(Mode)
+  6c:	82 30       	cpi	r24, 0x02	; 2
+  6e:	71 f0       	breq	.+28     	; 0x8c <Stepper_Motor+0x20>
+  70:	18 f4       	brcc	.+6      	; 0x78 <Stepper_Motor+0xc>
+  72:	81 30       	cpi	r24, 0x01	; 1
+  74:	31 f0       	breq	.+12     	; 0x82 <Stepper_Motor+0x16>
+  76:	08 95       	ret
+  78:	83 30       	cpi	r24, 0x03	; 3
+  7a:	79 f0       	breq	.+30     	; 0x9a <Stepper_Motor+0x2e>
+  7c:	84 30       	cpi	r24, 0x04	; 4
+  7e:	91 f0       	breq	.+36     	; 0xa4 <Stepper_Motor+0x38>
+  80:	08 95       	ret
+	{
+		case 1 :
+		    	PORTC |= (1<<Stepper_Leg_5)|(1<<Stepper_Leg_6);
+  82:	85 b3       	in	r24, 0x15	; 21
+  84:	80 66       	ori	r24, 0x60	; 96
+  86:	85 bb       	out	0x15, r24	; 21
+		    	PORTC &= ~(1<<Stepper_Leg_3)|(1<<Stepper_Leg_4);
+  88:	ab 98       	cbi	0x15, 3	; 21
+				
+		break ;
+  8a:	08 95       	ret
+		
+		case 2 :
+				PORTC |= (1<<Stepper_Leg_5)|(1<<Stepper_Leg_4);
+  8c:	85 b3       	in	r24, 0x15	; 21
+  8e:	80 63       	ori	r24, 0x30	; 48
+  90:	85 bb       	out	0x15, r24	; 21
+				PORTC &= ~(1<<Stepper_Leg_6)&(1<<Stepper_Leg_3);
+  92:	85 b3       	in	r24, 0x15	; 21
+  94:	88 70       	andi	r24, 0x08	; 8
+  96:	85 bb       	out	0x15, r24	; 21
+		break ;
+  98:	08 95       	ret
+		
+    	case 3 :
+				PORTC |= (1<<Stepper_Leg_3)|(1<<Stepper_Leg_4);
+  9a:	85 b3       	in	r24, 0x15	; 21
+  9c:	88 61       	ori	r24, 0x18	; 24
+  9e:	85 bb       	out	0x15, r24	; 21
+				PORTC &= ~(1<<Stepper_Leg_5)|(1<<Stepper_Leg_6);		
+  a0:	ad 98       	cbi	0x15, 5	; 21
+		break ;
+  a2:	08 95       	ret
+		
+		case 4 :
+				PORTC |= (1<<Stepper_Leg_3)|(1<<Stepper_Leg_6);
+  a4:	85 b3       	in	r24, 0x15	; 21
+  a6:	88 64       	ori	r24, 0x48	; 72
+  a8:	85 bb       	out	0x15, r24	; 21
+				PORTC &= ~(1<<Stepper_Leg_4)|(1<<Stepper_Leg_5);					
+  aa:	ac 98       	cbi	0x15, 4	; 21
+  ac:	08 95       	ret
+
+000000ae <main>:
+#define EN_1		4
+#define EN_2		5
+void Stepper_Motor(unsigned char Mode);
+int main(void)
+{
+    DDRC|=(1<<Stepper_Leg_6)|(1<<Stepper_Leg_5)|(1<<Stepper_Leg_3)|(1<<Stepper_Leg_4);
+  ae:	84 b3       	in	r24, 0x14	; 20
+  b0:	88 67       	ori	r24, 0x78	; 120
+  b2:	84 bb       	out	0x14, r24	; 20
+	DDRD|=(1<<EN_1)|(1<<EN_2);
+  b4:	81 b3       	in	r24, 0x11	; 17
+  b6:	80 63       	ori	r24, 0x30	; 48
+  b8:	81 bb       	out	0x11, r24	; 17
+	PORTD|=(1<<EN_1)|(1<<EN_2);
+  ba:	82 b3       	in	r24, 0x12	; 18
+  bc:	80 63       	ori	r24, 0x30	; 48
+  be:	82 bb       	out	0x12, r24	; 18
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  c0:	2f ef       	ldi	r18, 0xFF	; 255
+  c2:	87 ea       	ldi	r24, 0xA7	; 167
+  c4:	91 e6       	ldi	r25, 0x61	; 97
+  c6:	21 50       	subi	r18, 0x01	; 1
+  c8:	80 40       	sbci	r24, 0x00	; 0
+  ca:	90 40       	sbci	r25, 0x00	; 0
+  cc:	e1 f7       	brne	.-8      	; 0xc6 <main+0x18>
+  ce:	00 c0       	rjmp	.+0      	; 0xd0 <main+0x22>
+  d0:	00 00       	nop
+    while (1) 
+    {
+		_delay_ms(2000);
+		Stepper_Motor(1);
+  d2:	81 e0       	ldi	r24, 0x01	; 1
+  d4:	0e 94 36 00 	call	0x6c	; 0x6c <Stepper_Motor>
+  d8:	2f ef       	ldi	r18, 0xFF	; 255
+  da:	87 ea       	ldi	r24, 0xA7	; 167
+  dc:	91 e6       	ldi	r25, 0x61	; 97
+  de:	21 50       	subi	r18, 0x01	; 1
+  e0:	80 40       	sbci	r24, 0x00	; 0
+  e2:	90 40       	sbci	r25, 0x00	; 0
+  e4:	e1 f7       	brne	.-8      	; 0xde <main+0x30>
+  e6:	00 c0       	rjmp	.+0      	; 0xe8 <main+0x3a>
+  e8:	00 00       	nop
+		_delay_ms(2000);
+		PORTC|=0x00;
+  ea:	85 b3       	in	r24, 0x15	; 21
+  ec:	85 bb       	out	0x15, r24	; 21
+		Stepper_Motor(2);
+  ee:	82 e0       	ldi	r24, 0x02	; 2
+  f0:	0e 94 36 00 	call	0x6c	; 0x6c <Stepper_Motor>
+  f4:	2f ef       	ldi	r18, 0xFF	; 255
+  f6:	87 ea       	ldi	r24, 0xA7	; 167
+  f8:	91 e6       	ldi	r25, 0x61	; 97
+  fa:	21 50       	subi	r18, 0x01	; 1
+  fc:	80 40       	sbci	r24, 0x00	; 0
+  fe:	90 40       	sbci	r25, 0x00	; 0
+ 100:	e1 f7       	brne	.-8      	; 0xfa <main+0x4c>
+ 102:	00 c0       	rjmp	.+0      	; 0x104 <main+0x56>
+ 104:	00 00       	nop
+		_delay_ms(2000);
+		PORTC|=0x00;
+ 106:	85 b3       	in	r24, 0x15	; 21
+ 108:	85 bb       	out	0x15, r24	; 21
+		Stepper_Motor(3);
+ 10a:	83 e0       	ldi	r24, 0x03	; 3
+ 10c:	0e 94 36 00 	call	0x6c	; 0x6c <Stepper_Motor>
+ 110:	2f ef       	ldi	r18, 0xFF	; 255
+ 112:	87 ea       	ldi	r24, 0xA7	; 167
+ 114:	91 e6       	ldi	r25, 0x61	; 97
+ 116:	21 50       	subi	r18, 0x01	; 1
+ 118:	80 40       	sbci	r24, 0x00	; 0
+ 11a:	90 40       	sbci	r25, 0x00	; 0
+ 11c:	e1 f7       	brne	.-8      	; 0x116 <main+0x68>
+ 11e:	00 c0       	rjmp	.+0      	; 0x120 <main+0x72>
+ 120:	00 00       	nop
+		_delay_ms(2000);
+		PORTC|=0x00;
+ 122:	85 b3       	in	r24, 0x15	; 21
+ 124:	85 bb       	out	0x15, r24	; 21
+		Stepper_Motor(4);
+ 126:	84 e0       	ldi	r24, 0x04	; 4
+ 128:	0e 94 36 00 	call	0x6c	; 0x6c <Stepper_Motor>
+ 12c:	2f ef       	ldi	r18, 0xFF	; 255
+ 12e:	87 ea       	ldi	r24, 0xA7	; 167
+ 130:	91 e6       	ldi	r25, 0x61	; 97
+ 132:	21 50       	subi	r18, 0x01	; 1
+ 134:	80 40       	sbci	r24, 0x00	; 0
+ 136:	90 40       	sbci	r25, 0x00	; 0
+ 138:	e1 f7       	brne	.-8      	; 0x132 <main+0x84>
+ 13a:	00 c0       	rjmp	.+0      	; 0x13c <main+0x8e>
+ 13c:	00 00       	nop
+		_delay_ms(2000);
+		PORTC|=0x00;				
+ 13e:	85 b3       	in	r24, 0x15	; 21
+ 140:	85 bb       	out	0x15, r24	; 21
+ 142:	be cf       	rjmp	.-132    	; 0xc0 <main+0x12>
+
+00000144 <_exit>:
+ 144:	f8 94       	cli
+
+00000146 <__stop_program>:
+ 146:	ff cf       	rjmp	.-2      	; 0x146 <__stop_program>

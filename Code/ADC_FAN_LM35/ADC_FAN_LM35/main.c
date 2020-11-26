@@ -25,9 +25,9 @@ unsigned int ADC_Read(char channel);
 
 int main()
 {
-	char Temperature[10],voltage[10];
+	char Temperature[10],voltage[10],Farat[10];
 	float celsius,volt;
-	
+	int far;
 	DDRD|=(1<<Fan)|(1<<WHITE_LED)|(1<<Red_LED);
 	LCD_Init();                 /* initialize 16x2 LCD*/
 	ADC_Init();                 /* initialize ADC*/
@@ -41,7 +41,13 @@ int main()
 		celsius = (celsius/10.00); //equation of temperature sensor
 		sprintf(Temperature,"%d%cC",(int)celsius, degree_sysmbol);               // convert integer value to ASCII string
 		LCD_String("Temperature= ");
+		LCD_Command(0XC0);
+		far=(1.8*celsius)+32;
+		sprintf(Farat,"%d",far);
 		LCD_String(Temperature);                // send string data for printing
+		LCD_String("  ");
+		LCD_String(Farat);
+		LCD_String("F");
 		_delay_ms(100);
 		/*
 		memset(Temperature,0,10);
@@ -56,6 +62,7 @@ int main()
 			LCD_Command(0XC0);
 			LCD_String(" FAN ON");
 			PORTD|=(1<<Fan);
+			_delay_ms(100);
 			
 		}
 		if(celsius<30)
@@ -67,7 +74,7 @@ int main()
 			LCD_Command(0XC0);
 			LCD_String(" FAN OFF");
 			PORTD&=~(1<<Fan);
-																							//FAN OFF I CAN NOT
+			_delay_ms(100);																//FAN OFF I CAN NOT
 			
 		}
 		//Read The frist voltage
@@ -81,9 +88,9 @@ int main()
 		LCD_Char('V');
 		//Read The Second voltage
 		LCD_Command(0xC0);		// Go to 1st line
-		volt = (ADC_Read(2)*5);
-		volt =volt/255.0;
-		sprintf(voltage,"%d",volt);               // convert integer value to ASCII string
+		volt = (ADC_Read(2)*0.00488);
+		volt =volt*6;
+		sprintf(voltage,"%.2f",volt);               // convert integer value to ASCII string
 		LCD_String("volt(2)= ");
 		LCD_String(voltage);                // send string data for printing
 		LCD_Char('V');

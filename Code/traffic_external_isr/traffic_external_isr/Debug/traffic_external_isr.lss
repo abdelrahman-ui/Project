@@ -1,0 +1,469 @@
+
+traffic_external_isr.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000022c  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  000002a0  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000002  00800060  00800060  000002a0  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  000002a0  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000002d0  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000058  00000000  00000000  0000030c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   0000082b  00000000  00000000  00000364  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 000005e5  00000000  00000000  00000b8f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   000003f8  00000000  00000000  00001174  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  000000e0  00000000  00000000  0000156c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000003a1  00000000  00000000  0000164c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    000002a7  00000000  00000000  000019ed  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000048  00000000  00000000  00001c94  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 6c 00 	jmp	0xd8	; 0xd8 <__vector_1>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	20 e0       	ldi	r18, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	a2 36       	cpi	r26, 0x62	; 98
+  6c:	b2 07       	cpc	r27, r18
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 bf 00 	call	0x17e	; 0x17e <main>
+  74:	0c 94 14 01 	jmp	0x228	; 0x228 <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <RED_Blinking>:
+}
+
+
+void RED_Blinking()
+{
+	PORTA|=(1<<LED_RED);
+  7c:	df 9a       	sbi	0x1b, 7	; 27
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  7e:	2f ef       	ldi	r18, 0xFF	; 255
+  80:	81 ee       	ldi	r24, 0xE1	; 225
+  82:	94 e0       	ldi	r25, 0x04	; 4
+  84:	21 50       	subi	r18, 0x01	; 1
+  86:	80 40       	sbci	r24, 0x00	; 0
+  88:	90 40       	sbci	r25, 0x00	; 0
+  8a:	e1 f7       	brne	.-8      	; 0x84 <RED_Blinking+0x8>
+  8c:	00 c0       	rjmp	.+0      	; 0x8e <RED_Blinking+0x12>
+  8e:	00 00       	nop
+	_delay_ms(100);
+	PORTA&=~(1<<LED_RED);
+  90:	df 98       	cbi	0x1b, 7	; 27
+  92:	2f ef       	ldi	r18, 0xFF	; 255
+  94:	81 ee       	ldi	r24, 0xE1	; 225
+  96:	94 e0       	ldi	r25, 0x04	; 4
+  98:	21 50       	subi	r18, 0x01	; 1
+  9a:	80 40       	sbci	r24, 0x00	; 0
+  9c:	90 40       	sbci	r25, 0x00	; 0
+  9e:	e1 f7       	brne	.-8      	; 0x98 <RED_Blinking+0x1c>
+  a0:	00 c0       	rjmp	.+0      	; 0xa2 <RED_Blinking+0x26>
+  a2:	00 00       	nop
+  a4:	08 95       	ret
+
+000000a6 <RED_Off>:
+	_delay_ms(100);
+}
+void RED_Off()
+{
+	PORTA&=~(1<<LED_RED);
+  a6:	df 98       	cbi	0x1b, 7	; 27
+  a8:	08 95       	ret
+
+000000aa <GREEN_Blinking>:
+
+
+  
+void GREEN_Blinking()
+{
+	PORTA|=(1<<LED_GREEN);
+  aa:	dd 9a       	sbi	0x1b, 5	; 27
+  ac:	2f ef       	ldi	r18, 0xFF	; 255
+  ae:	81 ee       	ldi	r24, 0xE1	; 225
+  b0:	94 e0       	ldi	r25, 0x04	; 4
+  b2:	21 50       	subi	r18, 0x01	; 1
+  b4:	80 40       	sbci	r24, 0x00	; 0
+  b6:	90 40       	sbci	r25, 0x00	; 0
+  b8:	e1 f7       	brne	.-8      	; 0xb2 <GREEN_Blinking+0x8>
+  ba:	00 c0       	rjmp	.+0      	; 0xbc <GREEN_Blinking+0x12>
+  bc:	00 00       	nop
+	_delay_ms(100);
+	PORTA&=~(1<<LED_GREEN);
+  be:	dd 98       	cbi	0x1b, 5	; 27
+  c0:	2f ef       	ldi	r18, 0xFF	; 255
+  c2:	81 ee       	ldi	r24, 0xE1	; 225
+  c4:	94 e0       	ldi	r25, 0x04	; 4
+  c6:	21 50       	subi	r18, 0x01	; 1
+  c8:	80 40       	sbci	r24, 0x00	; 0
+  ca:	90 40       	sbci	r25, 0x00	; 0
+  cc:	e1 f7       	brne	.-8      	; 0xc6 <GREEN_Blinking+0x1c>
+  ce:	00 c0       	rjmp	.+0      	; 0xd0 <GREEN_Blinking+0x26>
+  d0:	00 00       	nop
+  d2:	08 95       	ret
+
+000000d4 <GREEN_Off>:
+	_delay_ms(100);
+}
+void GREEN_Off()
+{
+	PORTA&=~(1<<LED_GREEN);
+  d4:	dd 98       	cbi	0x1b, 5	; 27
+  d6:	08 95       	ret
+
+000000d8 <__vector_1>:
+void YELLOW_Off();
+void GREEN_Blinking();
+void GREEN_Off();
+//ISR
+ISR (INT0_vect)
+{
+  d8:	1f 92       	push	r1
+  da:	0f 92       	push	r0
+  dc:	0f b6       	in	r0, 0x3f	; 63
+  de:	0f 92       	push	r0
+  e0:	11 24       	eor	r1, r1
+  e2:	2f 93       	push	r18
+  e4:	3f 93       	push	r19
+  e6:	4f 93       	push	r20
+  e8:	5f 93       	push	r21
+  ea:	6f 93       	push	r22
+  ec:	7f 93       	push	r23
+  ee:	8f 93       	push	r24
+  f0:	9f 93       	push	r25
+  f2:	af 93       	push	r26
+  f4:	bf 93       	push	r27
+  f6:	cf 93       	push	r28
+  f8:	ef 93       	push	r30
+  fa:	ff 93       	push	r31
+	unsigned char pending_time=0;
+	if(state==GREEN)
+  fc:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+ 100:	82 30       	cpi	r24, 0x02	; 2
+ 102:	a1 f4       	brne	.+40     	; 0x12c <__vector_1+0x54>
+	{
+		pending_time=15-count;
+ 104:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <count>
+ 108:	cf e0       	ldi	r28, 0x0F	; 15
+ 10a:	c8 1b       	sub	r28, r24
+		while(count<pending_time)
+ 10c:	8c 17       	cp	r24, r28
+ 10e:	48 f4       	brcc	.+18     	; 0x122 <__vector_1+0x4a>
+		{
+			GREEN_Blinking();
+ 110:	0e 94 55 00 	call	0xaa	; 0xaa <GREEN_Blinking>
+			count++;
+ 114:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <count>
+ 118:	8f 5f       	subi	r24, 0xFF	; 255
+ 11a:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <count>
+{
+	unsigned char pending_time=0;
+	if(state==GREEN)
+	{
+		pending_time=15-count;
+		while(count<pending_time)
+ 11e:	8c 17       	cp	r24, r28
+ 120:	b8 f3       	brcs	.-18     	; 0x110 <__vector_1+0x38>
+		{
+			GREEN_Blinking();
+			count++;
+		}
+		GREEN_Off();
+ 122:	0e 94 6a 00 	call	0xd4	; 0xd4 <GREEN_Off>
+		count=8;
+ 126:	88 e0       	ldi	r24, 0x08	; 8
+ 128:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <count>
+	}
+}
+ 12c:	ff 91       	pop	r31
+ 12e:	ef 91       	pop	r30
+ 130:	cf 91       	pop	r28
+ 132:	bf 91       	pop	r27
+ 134:	af 91       	pop	r26
+ 136:	9f 91       	pop	r25
+ 138:	8f 91       	pop	r24
+ 13a:	7f 91       	pop	r23
+ 13c:	6f 91       	pop	r22
+ 13e:	5f 91       	pop	r21
+ 140:	4f 91       	pop	r20
+ 142:	3f 91       	pop	r19
+ 144:	2f 91       	pop	r18
+ 146:	0f 90       	pop	r0
+ 148:	0f be       	out	0x3f, r0	; 63
+ 14a:	0f 90       	pop	r0
+ 14c:	1f 90       	pop	r1
+ 14e:	18 95       	reti
+
+00000150 <YELLOW_Blinking>:
+
+
+
+void YELLOW_Blinking()
+{
+	PORTA|=(1<<LED_YELLOW);
+ 150:	de 9a       	sbi	0x1b, 6	; 27
+ 152:	2f ef       	ldi	r18, 0xFF	; 255
+ 154:	81 ee       	ldi	r24, 0xE1	; 225
+ 156:	94 e0       	ldi	r25, 0x04	; 4
+ 158:	21 50       	subi	r18, 0x01	; 1
+ 15a:	80 40       	sbci	r24, 0x00	; 0
+ 15c:	90 40       	sbci	r25, 0x00	; 0
+ 15e:	e1 f7       	brne	.-8      	; 0x158 <YELLOW_Blinking+0x8>
+ 160:	00 c0       	rjmp	.+0      	; 0x162 <YELLOW_Blinking+0x12>
+ 162:	00 00       	nop
+	_delay_ms(100);
+	PORTA&=~(1<<LED_YELLOW);
+ 164:	de 98       	cbi	0x1b, 6	; 27
+ 166:	2f ef       	ldi	r18, 0xFF	; 255
+ 168:	81 ee       	ldi	r24, 0xE1	; 225
+ 16a:	94 e0       	ldi	r25, 0x04	; 4
+ 16c:	21 50       	subi	r18, 0x01	; 1
+ 16e:	80 40       	sbci	r24, 0x00	; 0
+ 170:	90 40       	sbci	r25, 0x00	; 0
+ 172:	e1 f7       	brne	.-8      	; 0x16c <YELLOW_Blinking+0x1c>
+ 174:	00 c0       	rjmp	.+0      	; 0x176 <YELLOW_Blinking+0x26>
+ 176:	00 00       	nop
+ 178:	08 95       	ret
+
+0000017a <YELLOW_Off>:
+	_delay_ms(100);
+}
+void YELLOW_Off()
+{
+	PORTA&=~(1<<LED_YELLOW);
+ 17a:	de 98       	cbi	0x1b, 6	; 27
+ 17c:	08 95       	ret
+
+0000017e <main>:
+
+
+int main(void)
+{
+    //CONFIGUR INT0
+    GICR|=(1<<INT0);				//ENABLE INTO
+ 17e:	8b b7       	in	r24, 0x3b	; 59
+ 180:	80 64       	ori	r24, 0x40	; 64
+ 182:	8b bf       	out	0x3b, r24	; 59
+    //TYPE OF ISR
+    MCUCR|=(1<<ISC01)|(1<<ISC00);       //RISING EDGE
+ 184:	85 b7       	in	r24, 0x35	; 53
+ 186:	83 60       	ori	r24, 0x03	; 3
+ 188:	85 bf       	out	0x35, r24	; 53
+    //ENABLE GLOBAL ISR
+    sei();
+ 18a:	78 94       	sei
+	
+	DDRA|=0XFF;
+ 18c:	8a b3       	in	r24, 0x1a	; 26
+ 18e:	8f ef       	ldi	r24, 0xFF	; 255
+ 190:	8a bb       	out	0x1a, r24	; 26
+	
+	count=0;
+ 192:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <count>
+	state=0;
+ 196:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
+					RED_Blinking();
+					count++;
+				}
+				RED_Off();
+				count=0;
+				state=GREEN;
+ 19a:	d2 e0       	ldi	r29, 0x02	; 2
+					GREEN_Blinking();
+					count++;
+				}
+				GREEN_Off();
+				count=0;
+				state=YELLOW;
+ 19c:	c1 e0       	ldi	r28, 0x01	; 1
+	count=0;
+	state=0;
+	 
+    while (1) 
+    {
+		switch(state)
+ 19e:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+ 1a2:	81 30       	cpi	r24, 0x01	; 1
+ 1a4:	41 f0       	breq	.+16     	; 0x1b6 <main+0x38>
+ 1a6:	60 f0       	brcs	.+24     	; 0x1c0 <main+0x42>
+ 1a8:	82 30       	cpi	r24, 0x02	; 2
+ 1aa:	d9 f7       	brne	.-10     	; 0x1a2 <main+0x24>
+				count=0;
+				state=GREEN;
+			break;
+			
+			case (GREEN):
+				while(count<7)
+ 1ac:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <count>
+ 1b0:	87 30       	cpi	r24, 0x07	; 7
+ 1b2:	d0 f0       	brcs	.+52     	; 0x1e8 <main+0x6a>
+ 1b4:	22 c0       	rjmp	.+68     	; 0x1fa <main+0x7c>
+				count=0;
+				state=YELLOW;
+			break;
+				
+			case (YELLOW):
+				while(count<3)
+ 1b6:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <count>
+ 1ba:	83 30       	cpi	r24, 0x03	; 3
+ 1bc:	28 f1       	brcs	.+74     	; 0x208 <main+0x8a>
+ 1be:	2d c0       	rjmp	.+90     	; 0x21a <main+0x9c>
+    while (1) 
+    {
+		switch(state)
+		{
+			case (RED):
+				while(count<15)
+ 1c0:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <count>
+ 1c4:	8f 30       	cpi	r24, 0x0F	; 15
+ 1c6:	48 f4       	brcc	.+18     	; 0x1da <main+0x5c>
+				{
+					RED_Blinking();
+ 1c8:	0e 94 3e 00 	call	0x7c	; 0x7c <RED_Blinking>
+					count++;
+ 1cc:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <count>
+ 1d0:	8f 5f       	subi	r24, 0xFF	; 255
+ 1d2:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <count>
+    while (1) 
+    {
+		switch(state)
+		{
+			case (RED):
+				while(count<15)
+ 1d6:	8f 30       	cpi	r24, 0x0F	; 15
+ 1d8:	b8 f3       	brcs	.-18     	; 0x1c8 <main+0x4a>
+				{
+					RED_Blinking();
+					count++;
+				}
+				RED_Off();
+ 1da:	0e 94 53 00 	call	0xa6	; 0xa6 <RED_Off>
+				count=0;
+ 1de:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <count>
+				state=GREEN;
+ 1e2:	d0 93 60 00 	sts	0x0060, r29	; 0x800060 <_edata>
+			break;
+ 1e6:	db cf       	rjmp	.-74     	; 0x19e <main+0x20>
+			
+			case (GREEN):
+				while(count<7)
+				{
+					GREEN_Blinking();
+ 1e8:	0e 94 55 00 	call	0xaa	; 0xaa <GREEN_Blinking>
+					count++;
+ 1ec:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <count>
+ 1f0:	8f 5f       	subi	r24, 0xFF	; 255
+ 1f2:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <count>
+				count=0;
+				state=GREEN;
+			break;
+			
+			case (GREEN):
+				while(count<7)
+ 1f6:	87 30       	cpi	r24, 0x07	; 7
+ 1f8:	b8 f3       	brcs	.-18     	; 0x1e8 <main+0x6a>
+				{
+					GREEN_Blinking();
+					count++;
+				}
+				GREEN_Off();
+ 1fa:	0e 94 6a 00 	call	0xd4	; 0xd4 <GREEN_Off>
+				count=0;
+ 1fe:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <count>
+				state=YELLOW;
+ 202:	c0 93 60 00 	sts	0x0060, r28	; 0x800060 <_edata>
+			break;
+ 206:	cb cf       	rjmp	.-106    	; 0x19e <main+0x20>
+				
+			case (YELLOW):
+				while(count<3)
+				{
+					YELLOW_Blinking();
+ 208:	0e 94 a8 00 	call	0x150	; 0x150 <YELLOW_Blinking>
+					count++;
+ 20c:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <count>
+ 210:	8f 5f       	subi	r24, 0xFF	; 255
+ 212:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <count>
+				count=0;
+				state=YELLOW;
+			break;
+				
+			case (YELLOW):
+				while(count<3)
+ 216:	83 30       	cpi	r24, 0x03	; 3
+ 218:	b8 f3       	brcs	.-18     	; 0x208 <main+0x8a>
+				{
+					YELLOW_Blinking();
+					count++;
+				}
+				YELLOW_Off();
+ 21a:	0e 94 bd 00 	call	0x17a	; 0x17a <YELLOW_Off>
+				count=0;
+ 21e:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <count>
+				state=RED;
+ 222:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
+			break;					
+ 226:	bb cf       	rjmp	.-138    	; 0x19e <main+0x20>
+
+00000228 <_exit>:
+ 228:	f8 94       	cli
+
+0000022a <__stop_program>:
+ 22a:	ff cf       	rjmp	.-2      	; 0x22a <__stop_program>

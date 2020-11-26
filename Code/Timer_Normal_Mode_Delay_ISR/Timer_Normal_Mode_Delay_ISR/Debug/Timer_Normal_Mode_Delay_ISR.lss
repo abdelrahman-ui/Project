@@ -1,0 +1,237 @@
+
+Timer_Normal_Mode_Delay_ISR.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000013c  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  000001b0  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000003  00800060  00800060  000001b0  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  000001b0  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001e0  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000028  00000000  00000000  0000021c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   000006b6  00000000  00000000  00000244  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 000005a2  00000000  00000000  000008fa  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   000002bc  00000000  00000000  00000e9c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000044  00000000  00000000  00001158  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    00000363  00000000  00000000  0000119c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    00000114  00000000  00000000  000014ff  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000018  00000000  00000000  00001613  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  2c:	0c 94 81 00 	jmp	0x102	; 0x102 <__vector_11>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	20 e0       	ldi	r18, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	a3 36       	cpi	r26, 0x63	; 99
+  6c:	b2 07       	cpc	r27, r18
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 3e 00 	call	0x7c	; 0x7c <main>
+  74:	0c 94 9c 00 	jmp	0x138	; 0x138 <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <main>:
+volatile unsigned char count0 = 0 ;
+volatile unsigned char count1 = 0 ;
+volatile unsigned char count2 = 0 ;
+int main(void)
+{
+	DDRD|=(1<<5)|(1<<6)|(1<<7);
+  7c:	81 b3       	in	r24, 0x11	; 17
+  7e:	80 6e       	ori	r24, 0xE0	; 224
+  80:	81 bb       	out	0x11, r24	; 17
+	//Prescaler 
+	TCCR0|=(1<<CS01)|(1<<CS00);
+  82:	83 b7       	in	r24, 0x33	; 51
+  84:	83 60       	ori	r24, 0x03	; 3
+  86:	83 bf       	out	0x33, r24	; 51
+	 //Enable ISR
+	 TIMSK|=(1<<TOIE0);
+  88:	89 b7       	in	r24, 0x39	; 57
+  8a:	81 60       	ori	r24, 0x01	; 1
+  8c:	89 bf       	out	0x39, r24	; 57
+	 //global 
+	 sei();
+  8e:	78 94       	sei
+    /* Replace with your application code */
+    while (1) 
+    {
+		if(count0==200)
+		{
+			PORTD^=(1<<PIND5);
+  90:	20 e2       	ldi	r18, 0x20	; 32
+			_delay_ms(90);
+			count0=0;
+		}
+		if(count1==250)
+		{
+			PORTD^=(1<<PIND6);
+  92:	90 e4       	ldi	r25, 0x40	; 64
+	 //global 
+	 sei();
+    /* Replace with your application code */
+    while (1) 
+    {
+		if(count0==200)
+  94:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <count0>
+  98:	88 3c       	cpi	r24, 0xC8	; 200
+  9a:	71 f4       	brne	.+28     	; 0xb8 <main+0x3c>
+		{
+			PORTD^=(1<<PIND5);
+  9c:	82 b3       	in	r24, 0x12	; 18
+  9e:	82 27       	eor	r24, r18
+  a0:	82 bb       	out	0x12, r24	; 18
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  a2:	3f ef       	ldi	r19, 0xFF	; 255
+  a4:	44 e6       	ldi	r20, 0x64	; 100
+  a6:	84 e0       	ldi	r24, 0x04	; 4
+  a8:	31 50       	subi	r19, 0x01	; 1
+  aa:	40 40       	sbci	r20, 0x00	; 0
+  ac:	80 40       	sbci	r24, 0x00	; 0
+  ae:	e1 f7       	brne	.-8      	; 0xa8 <main+0x2c>
+  b0:	00 c0       	rjmp	.+0      	; 0xb2 <main+0x36>
+  b2:	00 00       	nop
+			_delay_ms(90);
+			count0=0;
+  b4:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <count0>
+		}
+		if(count1==250)
+  b8:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <count1>
+  bc:	8a 3f       	cpi	r24, 0xFA	; 250
+  be:	71 f4       	brne	.+28     	; 0xdc <main+0x60>
+		{
+			PORTD^=(1<<PIND6);
+  c0:	82 b3       	in	r24, 0x12	; 18
+  c2:	89 27       	eor	r24, r25
+  c4:	82 bb       	out	0x12, r24	; 18
+  c6:	3f ef       	ldi	r19, 0xFF	; 255
+  c8:	44 e6       	ldi	r20, 0x64	; 100
+  ca:	84 e0       	ldi	r24, 0x04	; 4
+  cc:	31 50       	subi	r19, 0x01	; 1
+  ce:	40 40       	sbci	r20, 0x00	; 0
+  d0:	80 40       	sbci	r24, 0x00	; 0
+  d2:	e1 f7       	brne	.-8      	; 0xcc <main+0x50>
+  d4:	00 c0       	rjmp	.+0      	; 0xd6 <main+0x5a>
+  d6:	00 00       	nop
+			_delay_ms(90);
+			count1=0;
+  d8:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <count1>
+		}
+		if(count2==100)
+  dc:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+  e0:	84 36       	cpi	r24, 0x64	; 100
+  e2:	c1 f6       	brne	.-80     	; 0x94 <main+0x18>
+		{
+			PORTD^=(1<<PIND7);
+  e4:	82 b3       	in	r24, 0x12	; 18
+  e6:	80 58       	subi	r24, 0x80	; 128
+  e8:	82 bb       	out	0x12, r24	; 18
+  ea:	3f ef       	ldi	r19, 0xFF	; 255
+  ec:	44 e6       	ldi	r20, 0x64	; 100
+  ee:	84 e0       	ldi	r24, 0x04	; 4
+  f0:	31 50       	subi	r19, 0x01	; 1
+  f2:	40 40       	sbci	r20, 0x00	; 0
+  f4:	80 40       	sbci	r24, 0x00	; 0
+  f6:	e1 f7       	brne	.-8      	; 0xf0 <main+0x74>
+  f8:	00 c0       	rjmp	.+0      	; 0xfa <main+0x7e>
+  fa:	00 00       	nop
+			_delay_ms(90);
+			count2=0;
+  fc:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
+ 100:	c9 cf       	rjmp	.-110    	; 0x94 <main+0x18>
+
+00000102 <__vector_11>:
+	}
+
+}
+
+ISR(TIMER0_OVF_vect)
+{
+ 102:	1f 92       	push	r1
+ 104:	0f 92       	push	r0
+ 106:	0f b6       	in	r0, 0x3f	; 63
+ 108:	0f 92       	push	r0
+ 10a:	11 24       	eor	r1, r1
+ 10c:	8f 93       	push	r24
+	count0++;
+ 10e:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <count0>
+ 112:	8f 5f       	subi	r24, 0xFF	; 255
+ 114:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <count0>
+	count1++;
+ 118:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <count1>
+ 11c:	8f 5f       	subi	r24, 0xFF	; 255
+ 11e:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <count1>
+	count2++;
+ 122:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+ 126:	8f 5f       	subi	r24, 0xFF	; 255
+ 128:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
+	
+ 12c:	8f 91       	pop	r24
+ 12e:	0f 90       	pop	r0
+ 130:	0f be       	out	0x3f, r0	; 63
+ 132:	0f 90       	pop	r0
+ 134:	1f 90       	pop	r1
+ 136:	18 95       	reti
+
+00000138 <_exit>:
+ 138:	f8 94       	cli
+
+0000013a <__stop_program>:
+ 13a:	ff cf       	rjmp	.-2      	; 0x13a <__stop_program>

@@ -1,0 +1,187 @@
+
+Servo_Motor.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000011a  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  0000016e  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  0000016e  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001a0  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000028  00000000  00000000  000001dc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000007b2  00000000  00000000  00000204  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000005c1  00000000  00000000  000009b6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000002d7  00000000  00000000  00000f77  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000034  00000000  00000000  00001250  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000350  00000000  00000000  00001284  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000001ae  00000000  00000000  000015d4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000090  00000000  00000000  00001782  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 36 00 	call	0x6c	; 0x6c <main>
+  64:	0c 94 8b 00 	jmp	0x116	; 0x116 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <main>:
+
+void Servo_Motor(unsigned short angle );
+
+int main(void)
+{	
+	DDRD|=(1<<PD4)|(1<<PD5);  //OC1B &OC1A OUTPUT
+  6c:	81 b3       	in	r24, 0x11	; 17
+  6e:	80 63       	ori	r24, 0x30	; 48
+  70:	81 bb       	out	0x11, r24	; 17
+		//Mode 14
+    TCCR1A|=(1<<WGM11);
+  72:	8f b5       	in	r24, 0x2f	; 47
+  74:	82 60       	ori	r24, 0x02	; 2
+  76:	8f bd       	out	0x2f, r24	; 47
+	TCCR1B|=(1<<WGM12)|(1<<WGM13);   
+  78:	8e b5       	in	r24, 0x2e	; 46
+  7a:	88 61       	ori	r24, 0x18	; 24
+  7c:	8e bd       	out	0x2e, r24	; 46
+	//PreScaler
+	TCCR1B|=(1<<CS10)|(1<<CS11);
+  7e:	8e b5       	in	r24, 0x2e	; 46
+  80:	83 60       	ori	r24, 0x03	; 3
+  82:	8e bd       	out	0x2e, r24	; 46
+	//Comper Output Mode
+	TCCR1A|=(1<<COM1A1);
+  84:	8f b5       	in	r24, 0x2f	; 47
+  86:	80 68       	ori	r24, 0x80	; 128
+  88:	8f bd       	out	0x2f, r24	; 47
+	//PUT Your Frequancy  F=5000
+	ICR1=4999;
+  8a:	87 e8       	ldi	r24, 0x87	; 135
+  8c:	93 e1       	ldi	r25, 0x13	; 19
+  8e:	97 bd       	out	0x27, r25	; 39
+  90:	86 bd       	out	0x26, r24	; 38
+    }
+}
+//Duty Cycle
+void Servo_Motor(unsigned short angle )
+{
+	OCR1A=((angle-Mini_Angle)*(Max_Count-Mini_Count)/(Max_Angle-Mini_Angle))+Mini_Count-1;
+  92:	e9 ef       	ldi	r30, 0xF9	; 249
+  94:	f0 e0       	ldi	r31, 0x00	; 0
+  96:	67 e3       	ldi	r22, 0x37	; 55
+  98:	71 e0       	ldi	r23, 0x01	; 1
+  9a:	46 e7       	ldi	r20, 0x76	; 118
+  9c:	51 e0       	ldi	r21, 0x01	; 1
+  9e:	26 ea       	ldi	r18, 0xA6	; 166
+  a0:	31 e0       	ldi	r19, 0x01	; 1
+  a2:	83 ef       	ldi	r24, 0xF3	; 243
+  a4:	91 e0       	ldi	r25, 0x01	; 1
+  a6:	fb bd       	out	0x2b, r31	; 43
+  a8:	ea bd       	out	0x2a, r30	; 42
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  aa:	af ef       	ldi	r26, 0xFF	; 255
+  ac:	b7 ea       	ldi	r27, 0xA7	; 167
+  ae:	c1 e6       	ldi	r28, 0x61	; 97
+  b0:	a1 50       	subi	r26, 0x01	; 1
+  b2:	b0 40       	sbci	r27, 0x00	; 0
+  b4:	c0 40       	sbci	r28, 0x00	; 0
+  b6:	e1 f7       	brne	.-8      	; 0xb0 <main+0x44>
+  b8:	00 c0       	rjmp	.+0      	; 0xba <main+0x4e>
+  ba:	00 00       	nop
+  bc:	7b bd       	out	0x2b, r23	; 43
+  be:	6a bd       	out	0x2a, r22	; 42
+  c0:	af ef       	ldi	r26, 0xFF	; 255
+  c2:	b7 ea       	ldi	r27, 0xA7	; 167
+  c4:	c1 e6       	ldi	r28, 0x61	; 97
+  c6:	a1 50       	subi	r26, 0x01	; 1
+  c8:	b0 40       	sbci	r27, 0x00	; 0
+  ca:	c0 40       	sbci	r28, 0x00	; 0
+  cc:	e1 f7       	brne	.-8      	; 0xc6 <main+0x5a>
+  ce:	00 c0       	rjmp	.+0      	; 0xd0 <main+0x64>
+  d0:	00 00       	nop
+  d2:	5b bd       	out	0x2b, r21	; 43
+  d4:	4a bd       	out	0x2a, r20	; 42
+  d6:	af ef       	ldi	r26, 0xFF	; 255
+  d8:	b7 ea       	ldi	r27, 0xA7	; 167
+  da:	c1 e6       	ldi	r28, 0x61	; 97
+  dc:	a1 50       	subi	r26, 0x01	; 1
+  de:	b0 40       	sbci	r27, 0x00	; 0
+  e0:	c0 40       	sbci	r28, 0x00	; 0
+  e2:	e1 f7       	brne	.-8      	; 0xdc <main+0x70>
+  e4:	00 c0       	rjmp	.+0      	; 0xe6 <main+0x7a>
+  e6:	00 00       	nop
+  e8:	3b bd       	out	0x2b, r19	; 43
+  ea:	2a bd       	out	0x2a, r18	; 42
+  ec:	af ef       	ldi	r26, 0xFF	; 255
+  ee:	b7 ea       	ldi	r27, 0xA7	; 167
+  f0:	c1 e6       	ldi	r28, 0x61	; 97
+  f2:	a1 50       	subi	r26, 0x01	; 1
+  f4:	b0 40       	sbci	r27, 0x00	; 0
+  f6:	c0 40       	sbci	r28, 0x00	; 0
+  f8:	e1 f7       	brne	.-8      	; 0xf2 <main+0x86>
+  fa:	00 c0       	rjmp	.+0      	; 0xfc <main+0x90>
+  fc:	00 00       	nop
+  fe:	9b bd       	out	0x2b, r25	; 43
+ 100:	8a bd       	out	0x2a, r24	; 42
+ 102:	af ef       	ldi	r26, 0xFF	; 255
+ 104:	b7 ea       	ldi	r27, 0xA7	; 167
+ 106:	c1 e6       	ldi	r28, 0x61	; 97
+ 108:	a1 50       	subi	r26, 0x01	; 1
+ 10a:	b0 40       	sbci	r27, 0x00	; 0
+ 10c:	c0 40       	sbci	r28, 0x00	; 0
+ 10e:	e1 f7       	brne	.-8      	; 0x108 <main+0x9c>
+ 110:	00 c0       	rjmp	.+0      	; 0x112 <main+0xa6>
+ 112:	00 00       	nop
+ 114:	c8 cf       	rjmp	.-112    	; 0xa6 <main+0x3a>
+
+00000116 <_exit>:
+ 116:	f8 94       	cli
+
+00000118 <__stop_program>:
+ 118:	ff cf       	rjmp	.-2      	; 0x118 <__stop_program>

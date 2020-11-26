@@ -1,0 +1,197 @@
+
+Magic_button.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000102  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  00000176  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000002  00800060  00800060  00000176  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00000176  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001a8  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000020  00000000  00000000  000001e4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00000676  00000000  00000000  00000204  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00000581  00000000  00000000  0000087a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   00000296  00000000  00000000  00000dfb  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000024  00000000  00000000  00001094  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    0000032a  00000000  00000000  000010b8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    000000d8  00000000  00000000  000013e2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000010  00000000  00000000  000014ba  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	20 e0       	ldi	r18, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	a2 36       	cpi	r26, 0x62	; 98
+  6c:	b2 07       	cpc	r27, r18
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 3e 00 	call	0x7c	; 0x7c <main>
+  74:	0c 94 7f 00 	jmp	0xfe	; 0xfe <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <main>:
+#include "bit_math.h"
+#include <util/delay.h>
+static count =0;
+int main(void)
+{
+    SET_BIT(DDRC,0);
+  7c:	a0 9a       	sbi	0x14, 0	; 20
+	CLR_BIT(DDRA,0);
+  7e:	d0 98       	cbi	0x1a, 0	; 26
+	SET_BIT(DDRD,0);
+  80:	88 9a       	sbi	0x11, 0	; 17
+			count++;
+		switch(count)
+		{
+		  case 1:
+		  
+			TOGGLE_BIT(PORTC,0);
+  82:	21 e0       	ldi	r18, 0x01	; 1
+	CLR_BIT(DDRA,0);
+	SET_BIT(DDRD,0);
+	 while (1)
+    {
+		
+		 while(GET_BIT(PINA,0)==0);
+  84:	c8 9b       	sbis	0x19, 0	; 25
+  86:	fe cf       	rjmp	.-4      	; 0x84 <main+0x8>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  88:	8b e5       	ldi	r24, 0x5B	; 91
+  8a:	94 e4       	ldi	r25, 0x44	; 68
+  8c:	01 97       	sbiw	r24, 0x01	; 1
+  8e:	f1 f7       	brne	.-4      	; 0x8c <main+0x10>
+  90:	00 c0       	rjmp	.+0      	; 0x92 <main+0x16>
+  92:	00 00       	nop
+			_delay_ms(70);
+			count++;
+  94:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+  98:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <_edata+0x1>
+  9c:	01 96       	adiw	r24, 0x01	; 1
+  9e:	90 93 61 00 	sts	0x0061, r25	; 0x800061 <_edata+0x1>
+  a2:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
+		switch(count)
+  a6:	81 30       	cpi	r24, 0x01	; 1
+  a8:	91 05       	cpc	r25, r1
+  aa:	19 f0       	breq	.+6      	; 0xb2 <main+0x36>
+  ac:	02 97       	sbiw	r24, 0x02	; 2
+  ae:	89 f0       	breq	.+34     	; 0xd2 <main+0x56>
+  b0:	23 c0       	rjmp	.+70     	; 0xf8 <main+0x7c>
+		{
+		  case 1:
+		  
+			TOGGLE_BIT(PORTC,0);
+  b2:	85 b3       	in	r24, 0x15	; 21
+  b4:	82 27       	eor	r24, r18
+  b6:	85 bb       	out	0x15, r24	; 21
+  b8:	9f e3       	ldi	r25, 0x3F	; 63
+  ba:	3d e0       	ldi	r19, 0x0D	; 13
+  bc:	83 e0       	ldi	r24, 0x03	; 3
+  be:	91 50       	subi	r25, 0x01	; 1
+  c0:	30 40       	sbci	r19, 0x00	; 0
+  c2:	80 40       	sbci	r24, 0x00	; 0
+  c4:	e1 f7       	brne	.-8      	; 0xbe <main+0x42>
+  c6:	00 c0       	rjmp	.+0      	; 0xc8 <main+0x4c>
+  c8:	00 00       	nop
+			_delay_ms(1000);
+			TOGGLE_BIT(PORTC,0);
+  ca:	85 b3       	in	r24, 0x15	; 21
+  cc:	82 27       	eor	r24, r18
+  ce:	85 bb       	out	0x15, r24	; 21
+			break;
+  d0:	13 c0       	rjmp	.+38     	; 0xf8 <main+0x7c>
+			
+		  case 2:
+			
+			TOGGLE_BIT(PORTD,0);
+  d2:	82 b3       	in	r24, 0x12	; 18
+  d4:	82 27       	eor	r24, r18
+  d6:	82 bb       	out	0x12, r24	; 18
+  d8:	9f e3       	ldi	r25, 0x3F	; 63
+  da:	3d e0       	ldi	r19, 0x0D	; 13
+  dc:	83 e0       	ldi	r24, 0x03	; 3
+  de:	91 50       	subi	r25, 0x01	; 1
+  e0:	30 40       	sbci	r19, 0x00	; 0
+  e2:	80 40       	sbci	r24, 0x00	; 0
+  e4:	e1 f7       	brne	.-8      	; 0xde <main+0x62>
+  e6:	00 c0       	rjmp	.+0      	; 0xe8 <main+0x6c>
+  e8:	00 00       	nop
+			_delay_ms(1000);
+			TOGGLE_BIT(PORTC,0);
+  ea:	85 b3       	in	r24, 0x15	; 21
+  ec:	82 27       	eor	r24, r18
+  ee:	85 bb       	out	0x15, r24	; 21
+			count=0;
+  f0:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <_edata+0x1>
+  f4:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
+		  break;
+			
+    }
+	 while(GET_BIT(PINA,0)==1);
+  f8:	c8 99       	sbic	0x19, 0	; 25
+  fa:	fe cf       	rjmp	.-4      	; 0xf8 <main+0x7c>
+  fc:	c3 cf       	rjmp	.-122    	; 0x84 <main+0x8>
+
+000000fe <_exit>:
+  fe:	f8 94       	cli
+
+00000100 <__stop_program>:
+ 100:	ff cf       	rjmp	.-2      	; 0x100 <__stop_program>
